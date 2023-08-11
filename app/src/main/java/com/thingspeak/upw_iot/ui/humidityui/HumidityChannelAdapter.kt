@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.HumidityItemBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
-import com.thingspeak.upw_iot.model.Feed_Water
+import com.thingspeak.upw_iot.model.Feed_Temp
 
 class HumidityChannelAdapter: RecyclerView.Adapter<HumidityChannelAdapter.MyViewHolder>() {
 
-    var list= mutableListOf<Feed_Water>()
+    var list= mutableListOf<Feed_Temp>()
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(it: List<Feed_Water>) {
-        this.list = it as MutableList<Feed_Water>
+    fun updateList(it: List<Feed_Temp>) {
+        this.list = it as MutableList<Feed_Temp>
         this.notifyDataSetChanged()
     }
 
@@ -30,6 +30,7 @@ class HumidityChannelAdapter: RecyclerView.Adapter<HumidityChannelAdapter.MyView
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         holder.bind(list[position])
         holder.itemView.setOnClickListener {
             itemListener.onItemClick(position)
@@ -40,7 +41,7 @@ class HumidityChannelAdapter: RecyclerView.Adapter<HumidityChannelAdapter.MyView
 
     class MyViewHolder(itemBinding: HumidityItemBinding) : ViewHolder(itemBinding.root){
         val binding = itemBinding
-        fun bind(feed: Feed_Water) {
+        fun bind(feed: Feed_Temp) {
           // binding.model=feed
             binding.phModel=feed
         }

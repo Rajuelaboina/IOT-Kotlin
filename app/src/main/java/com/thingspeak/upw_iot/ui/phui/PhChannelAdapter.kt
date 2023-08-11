@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.PhItemBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
-import com.thingspeak.upw_iot.model.Feed_Water
+import com.thingspeak.upw_iot.model.Feed_ph
 
 class PhChannelAdapter: RecyclerView.Adapter<PhChannelAdapter.MyViewHolder>() {
 
-    var list= mutableListOf<Feed_Water>()
+    var list= mutableListOf<Feed_ph>()
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(it: List<Feed_Water>) {
-        this.list = it as MutableList<Feed_Water>
+    fun updateList(feedPhList: List<Feed_ph>) {
+        this.list = feedPhList as MutableList<Feed_ph>
         this.notifyDataSetChanged()
     }
 
@@ -40,7 +40,7 @@ class PhChannelAdapter: RecyclerView.Adapter<PhChannelAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemBinding: PhItemBinding) : ViewHolder(itemBinding.root){
         val binding = itemBinding
-        fun bind(feed: Feed_Water) {
+        fun bind(feed: Feed_ph) {
           // binding.model=feed
             binding.phModel=feed
         }

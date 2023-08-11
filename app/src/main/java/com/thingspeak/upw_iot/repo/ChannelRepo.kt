@@ -1,18 +1,8 @@
 package com.thingspeak.upw_iot.repo
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.thingspeak.upw_iot.apis.RetrofitRequest
-import com.thingspeak.upw_iot.model.Channel
-import com.thingspeak.upw_iot.model.Channel_Temp
-import com.thingspeak.upw_iot.model.Channel_Water
-import com.thingspeak.upw_iot.model.Feed
-import com.thingspeak.upw_iot.model.Feed_Temp
-import com.thingspeak.upw_iot.model.Feed_Water
-import com.thingspeak.upw_iot.model.TDSValues
-import com.thingspeak.upw_iot.model.TempHumidity
-import com.thingspeak.upw_iot.model.WaterDistanceMeasuring
-
+import com.thingspeak.upw_iot.model.*
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -22,23 +12,27 @@ import io.reactivex.schedulers.Schedulers
 class ChannelRepo {
     var feedList =  MutableLiveData<List<Feed>>()
     var channelList =  MutableLiveData<Channel>()
-
+        // temp
     var tempFeedList = MutableLiveData<List<Feed_Temp>>()
     var tempChannelList = MutableLiveData<Channel_Temp>()
-
+    // water
     var waterFeedList = MutableLiveData<List<Feed_Water>>()
     var waterChannelList = MutableLiveData<Channel_Water>()
+    //ph vales
+    var phFeedList = MutableLiveData<List<Feed_ph>>()
+    var phChannelList = MutableLiveData<Channel_Ph>()
 
-    init {
+    /*init {
         getAllData()
         getTempHumidity()
         getWaterValues()
-    }
+        getPhValues()
+    }*/
 
 
 
 
-    private fun getAllData() {
+     fun getAllData() {
         /*CoroutineScope(IO).launch {
             val call: Call<TDSValues> = RetrofitRequest.getRetrofitInstance().getTdsvalue()
             call.enqueue(object :Callback<TDSValues>{
@@ -60,9 +54,9 @@ class ChannelRepo {
             RetrofitRequest.getRetrofitInstance().getTdsvalue()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object :Observer<TDSValues>{
+                .subscribe(object : Observer<TDSValues> {
                     override fun onSubscribe(d: Disposable) {
-                        Log.e("RxJava ","onSubscribe")
+                        //Log.e("RxJava ","onSubscribe")
                     }
 
                     override fun onError(e: Throwable) {
@@ -71,7 +65,7 @@ class ChannelRepo {
                     }
 
                     override fun onComplete() {
-                        Log.e("RxJava ","OnCompletes")
+                        //Log.e("RxJava ","OnCompletes")
                     }
 
                     override fun onNext(t: TDSValues) {
@@ -94,7 +88,7 @@ class ChannelRepo {
         return channelList
     }
    // get the temp and humidity values
-    private fun getTempHumidity() {
+     fun getTempHumidity() {
        val call = RetrofitRequest.getRetrofitInstance().getTempAndHumidity()
       /* call.enqueue(object :Callback<TempHumidity>{
            @SuppressLint("SuspiciousIndentation")
@@ -116,7 +110,7 @@ class ChannelRepo {
            .observeOn(AndroidSchedulers.mainThread())
            .subscribe(object : Observer<TempHumidity>{
                override fun onSubscribe(d: Disposable) {
-                   Log.e("RxJava ","onSubscribe")
+                  // Log.e("RxJava ","onSubscribe")
                }
 
                override fun onError(e: Throwable) {
@@ -125,7 +119,7 @@ class ChannelRepo {
                }
 
                override fun onComplete() {
-                   Log.e("RxJava ","OnCompletes")
+                  // Log.e("RxJava ","OnCompletes")
                }
 
                override fun onNext(tempHumidity: TempHumidity) {
@@ -147,7 +141,7 @@ class ChannelRepo {
     }
 
     //get the ph mean water level values
-    private fun getWaterValues() {
+     fun getWaterValues() {
         RetrofitRequest.getRetrofitInstance().getWaterDistance()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -174,5 +168,35 @@ class ChannelRepo {
 
             })
     }
+    //ph values
+     fun getPhValues() {
+            RetrofitRequest.getRetrofitInstance().getPhValues()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object :Observer<PhValues>{
+                    override fun onSubscribe(d: Disposable) {
+                        //TODO("Not yet implemented")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        phFeedList.postValue(null)
+                        phChannelList.postValue(null)
+                    }
+
+                    override fun onComplete() {
+                       // TODO("Not yet implemented")
+                    }
+
+                    override fun onNext(t: PhValues) {
+                       // TODO("Not yet implemented")
+                        if (t!=null){
+                            phFeedList.postValue(t.feeds)
+                            phChannelList.postValue(t.channel)
+                        }
+                    }
+
+                })
+    }
+
 
 }

@@ -1,28 +1,24 @@
 package com.thingspeak.upw_iot.ui.activity
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.widget.TableLayout
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.adapter.SectionsPagerAdapter
 import com.thingspeak.upw_iot.databinding.ActivityMainBinding
+import com.thingspeak.upw_iot.listeners.SwipeRefreshListener
 import com.thingspeak.upw_iot.repo.ChannelRepo
 import com.thingspeak.upw_iot.utils.DateUtils
 import com.thingspeak.upw_iot.utils.ProgressUtill
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.ChannelViewModelHelper
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SwipeRefreshListener {
     private var dateTitle: TextView? = null
     private lateinit var binding: ActivityMainBinding
     private lateinit var sectionsPagerAdapter: SectionsPagerAdapter
@@ -30,10 +26,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var channelRepo: ChannelRepo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding=DataBindingUtil.setContentView(this, R.layout.activity_main)
+        channelRepo = ChannelRepo()
+        viewModel = ViewModelProvider(this, ChannelViewModelHelper(channelRepo))[ChannelViewModel::class.java]
+        binding.executePendingBindings()
+
         this.dateTitle =binding.dateTitle
         sectionsPagerAdapter = SectionsPagerAdapter(applicationContext,supportFragmentManager)
         val viewPager = binding.viewPager
+        //viewPager.currentItem = 3
         viewPager.adapter =sectionsPagerAdapter
         val tableLayout = binding.tabs
         tableLayout.setupWithViewPager(viewPager)
@@ -48,10 +50,22 @@ class MainActivity : AppCompatActivity() {
         }else if (id.equals("2")){
             tableLayout.getTabAt(2)?.select()
           //  binding.dateTitle.text = date
+        }else if (id.equals("3")){
+            tableLayout.getTabAt(3)?.select()
+            //  binding.dateTitle.text = date
         }else if (id.equals("4")){
             tableLayout.getTabAt(4)?.select()
             //  binding.dateTitle.text = date
         }
+        //binding.refreshLayoutMain.isRefreshing = true
+       /* binding.refreshLayoutMain.setOnRefreshListener {
+            val position = tableLayout.selectedTabPosition
+
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                refreshDate(position)
+                binding.refreshLayoutMain.isRefreshing = false
+            }, 2000)
+        }*/
        // tableLayout.getTabAt(0)?.orCreateBadge!!.number =10
       //  binding.dateTitle.text = date
 
@@ -60,82 +74,68 @@ class MainActivity : AppCompatActivity() {
                //Log.e("onPageScrolled TabPosition","Position: $position")
                refreshDate(position)
            }
-
            override fun onPageSelected(position: Int) {
-               refreshDate(position)
-               //Log.e("onPageSelected TabPosition","Position: $position")
+             refreshDate(position)
            }
-
            override fun onPageScrollStateChanged(state: Int) {
-
            }
-
        })
-
-        channelRepo = ChannelRepo()
-        viewModel = ViewModelProvider(this, ChannelViewModelHelper(channelRepo))[ChannelViewModel::class.java]
-        binding.executePendingBindings()
-       /* viewModel.getChannel().observe(this, Observer {
-            if(it!=null) {
-                val str: String = it.created_at
-                binding.dateTitle.setText(DateUtils.getDate(str))
-            }
-        })*/
-        /*viewModel.getAllFeeds().observe(this, Observer {
-            ProgressUtill.hideProgress(getApplicationContext())
-            if (it!=null) {
-
-                binding.dateTitle.text =DateUtils.getDateTime(it.get(it.size - 2).created_at)
-
-            }
-        })*/
-        /*binding.refreshLayout.isRefreshing = false
-        binding.refreshLayout.setOnRefreshListener {
-            binding.refreshLayout.isRefreshing = true
-            Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                refreshDate(viewPager.currentItem)
-                binding.refreshLayout.isRefreshing = false
-            }, 4000)
-        }*/
-
+        SwipeRefreshListener.onSwipeRefreshListener(this)
     }
 
     @SuppressLint("SetTextI18n")
     private fun refreshDate(position: Int) {
+        //  binding.dateTitle.text ="00:00:00"
+        // binding.dateTitle.text ="00:00:00"
         when (position) {
             0 -> {
                 viewModel.getAllFeeds().observe(this) {
                     ProgressUtill.hideProgress(this.applicationContext)
                     if (it != null) {
-
                         binding.dateTitle.text =
-                            DateUtils.getDateTime(it[it.size - 2].created_at)
-
+                            DateUtils.getDateTime(it[it.size - 1].created_at)
                     }
                 }
             }
             1 -> {
-                /*viewModel.getWaterFeedList().observe(this){
+                viewModel.getPhFeedList().observe(this){
                     ProgressUtill.hideProgress(applicationContext)
-                    binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 2].created_at)
-                }*/
-                binding.dateTitle.text ="00:00:00"
+                    if (it != null) {
+                        binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].created_at)
+                    }
+                }
             }
             2 -> {
                 viewModel.getTempFeeds().observe(this) {
                     ProgressUtill.hideProgress(applicationContext)
-                    binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 2].createdAt)
-
+                    if (it != null) {
+                        binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].createdAt)
+                    }
                 }
             }
             3 -> {
+                viewModel.getTempFeeds().observe(this) {
+                    ProgressUtill.hideProgress(applicationContext)
+                    if (it != null) {
+                        binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].createdAt)
+                    }
+                }
+            }
+            4 -> {
                 viewModel.getWaterFeedList().observe(this){
                     ProgressUtill.hideProgress(applicationContext)
-                    binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 2].created_at)
+                    if (it != null) {
+                        binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].created_at)
+                    }
                 }
-             // binding.dateTitle.text ="00:00:00"
+            }
         }
-        }
+    }
+
+    override fun onRefreshListener(/*createdAt: String*/) {
+      //  binding.dateTitle.text = DateUtils.getDateTime(createdAt)
+        val position = binding.tabs.selectedTabPosition
+        refreshDate(position)
     }
 
 }

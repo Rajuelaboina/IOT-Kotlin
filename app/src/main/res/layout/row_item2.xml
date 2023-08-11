@@ -20,14 +20,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_gravity="center"
             android:id="@+id/textView_created_at"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="start"
             android:text="@{util.Companion.getDateTime2(model.created_at.trim())}"
-            android:textColor="@color/black"
-            android:gravity="center" />
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_gravity="center"
@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:text="@{model.field1.trim()}"
             android:textColor="@color/black"
-            android:gravity="center" />
+            android:gravity="start" />
     </LinearLayout>
 
         <View

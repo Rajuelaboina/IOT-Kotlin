@@ -2,9 +2,6 @@ package com.thingspeak.upw_iot.ui.tdsui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.FragmentTdsBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
+import com.thingspeak.upw_iot.listeners.SwipeRefreshListener.Companion.refreshListener
 import com.thingspeak.upw_iot.repo.ChannelRepo
 import com.thingspeak.upw_iot.utils.CheckNetworkConnection
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
@@ -46,43 +44,55 @@ class TDSFragment: Fragment() , ItemSelecetedListener {
         binding.tabLayout.visibility = View.INVISIBLE
         binding.refreshLayout2.isRefreshing = true
         if (CheckNetworkConnection.isInternetOn(requireContext())){
-            viewModel.getAllFeeds().observe(this) {
+            getResponseData("")
+           /* viewModel.getAllFeeds().observe(this) {
                 binding.refreshLayout2.isRefreshing = false
                 binding.progressBar.visibility = View.INVISIBLE
-                if (it != null)
+                if (it != null) {
                     binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setAdapter(it)
-            }
-            binding.recyclerView.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
-
-        }else{
+                    viewModel.setAdapter(it)
+                }
+            }*/
+       }else{
             Snackbar.make(binding.constraintLayoutTds,"check Internet connection", Snackbar.LENGTH_LONG).show()
             binding.progressBar.visibility=View.INVISIBLE
+            binding.refreshLayout2.isRefreshing = false
         }
-        ChannelAdapter.onItemSelectedListener(this)
 
         binding.refreshLayout2.setOnRefreshListener {
-
-            viewModel.getAllFeeds().observe(this) {
+            getResponseData("swipe")
+            /*viewModel.getAllFeeds().observe(this) {
                 binding.refreshLayout2.isRefreshing = false
                 binding.progressBar.visibility = View.INVISIBLE
-                if (it != null)
+                if (it != null) {
                     binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setAdapter(it)
+                    viewModel.setAdapter(it)
+                }
             }
-            binding.recyclerView.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
            // binding.refreshLayout2.isRefreshing = false
             Handler(Looper.getMainLooper()).postDelayed(Runnable {
                 binding.refreshLayout2.isRefreshing = false
-            }, 2000)
+            }, 2000)*/
         }
-
+        ChannelAdapter.onItemSelectedListener(this)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
     }
-
-
+    @SuppressLint("FragmentLiveDataObserve")
+    private fun getResponseData(s:String) {
+        viewModel.getAllFeeds().observe(this) {
+            binding.progressBar.visibility = View.INVISIBLE
+            if (it != null) {
+                binding.tabLayout.visibility = View.VISIBLE
+                viewModel.setAdapter(it)
+                binding.recyclerView.smoothScrollToPosition(it.size-1)
+            }
+            if ("swipe" == s) {
+                refreshListener.onRefreshListener()
+            }
+            binding.refreshLayout2.isRefreshing = false
+        }
+    }
     override fun onItemClick(position: Int) {
-       Log.e("itemClik ","selectedItem: $position")
+       //Log.e("itemClik ","selectedItem: $position")
     }
-
-
 }

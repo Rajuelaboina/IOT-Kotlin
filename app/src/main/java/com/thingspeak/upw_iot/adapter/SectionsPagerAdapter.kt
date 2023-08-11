@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.thingspeak.upw_iot.ui.humidityui.HumidityFragment
 import com.thingspeak.upw_iot.ui.phui.PHFragment
 import com.thingspeak.upw_iot.ui.tdsui.TDSFragment
-import com.thingspeak.upw_iot.ui.tempui.TempFragment
+import com.thingspeak.upw_iot.ui.tdsui.TempFragment
 import com.thingspeak.upw_iot.ui.waterui.WaterDisFragment
 
 class SectionsPagerAdapter(context: Context,fm: FragmentManager) : FragmentPagerAdapter(fm) {

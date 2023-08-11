@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+   >
 
     <data>
 
@@ -20,12 +21,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@color/ash"
             app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:padding="5dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_marginBottom="4dp"
@@ -61,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:layout_marginBottom="3dp"/>
         </LinearLayout>
 
 
@@ -78,6 +82,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
             <LinearLayout
+                android:background="@color/ash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -88,6 +93,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:background="@drawable/rectanglebox"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,13 +104,20 @@
                         android:id="@+id/TDStextView"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@drawable/rectanglebox"
                         android:gravity="center"
                         android:text=" TDS value(ppm)"
                         android:textColor="@color/black"/>
+
+                    <View
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/divider3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
                     <LinearLayout
                         android:id="@+id/hm_LinearLayout"
-                        android:background="@drawable/rectanglebox"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:orientation="vertical"
@@ -138,12 +151,16 @@
                         android:id="@+id/PHtextView"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@drawable/rectanglebox"
                         android:gravity="center"
                         android:text="PH value"
                         android:textColor="@color/black"/>
+                    <View
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
                     <LinearLayout
-                        android:background="@drawable/rectanglebox"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:orientation="vertical"
@@ -158,11 +175,24 @@
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
                     </LinearLayout>
-
-
                 </LinearLayout>
-
             </LinearLayout>
+
+              <TextView
+                    android:id="@+id/TempTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Machilipatnam"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -170,23 +200,30 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:background="@drawable/rectanglebox"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/TemptextView"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:background="@drawable/rectanglebox"
                             android:gravity="center"
                             android:text=" Temp Value(oC)"
                             android:textColor="@color/black"/>
+                        <View
+                            android:layout_marginTop="1dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
                         <LinearLayout
                             android:id="@+id/tem_LinearLayout"
-                            android:background="@drawable/rectanglebox"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:orientation="vertical"
@@ -203,8 +240,6 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold"/>
                         </LinearLayout>
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -216,16 +251,30 @@
                         android:layout_weight="1"
                         android:background="@drawable/rectanglebox"
                         android:orientation="vertical">
+                       <!-- <TextView
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/humTitleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Machilipatnam"
+                            android:textColor="@color/black"/>-->
                         <TextView
                             android:id="@+id/humtextView"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:background="@drawable/rectanglebox"
                             android:gravity="center"
                             android:text="Humidity (RH)"
                             android:textColor="@color/black"/>
+                        <View
+                            android:layout_marginTop="1dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
                         <LinearLayout
-                            android:background="@drawable/rectanglebox"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:orientation="vertical"
@@ -240,10 +289,7 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold"/>
                         </LinearLayout>
-
-
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -252,6 +298,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:background="@drawable/rectanglebox"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -262,13 +309,18 @@
                             android:id="@+id/waterTextView"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:background="@drawable/rectanglebox"
                             android:gravity="center"
                             android:text="Water Distance (in cm)"
                             android:textColor="@color/black"/>
+                        <View
+                            android:layout_marginTop="1dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
                         <LinearLayout
                             android:id="@+id/water_LinearLayout"
-                            android:background="@drawable/rectanglebox"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:orientation="vertical"

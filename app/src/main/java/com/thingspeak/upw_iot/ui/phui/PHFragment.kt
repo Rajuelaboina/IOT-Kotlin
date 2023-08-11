@@ -15,7 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.FragmentPhBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
+import com.thingspeak.upw_iot.listeners.SwipeRefreshListener.Companion.refreshListener
 import com.thingspeak.upw_iot.repo.ChannelRepo
+import com.thingspeak.upw_iot.utils.CheckNetworkConnection
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.ChannelViewModelHelper
 
@@ -30,50 +32,70 @@ class PHFragment : Fragment(), ItemSelecetedListener {
         return binding.root
     }
 
-
     @SuppressLint("FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         channelRepo = ChannelRepo()
         viewModel = ViewModelProvider(this, ChannelViewModelHelper(channelRepo))[ChannelViewModel::class.java]
-       /* binding.executePendingBindings()
+        binding.executePendingBindings()
         binding.channelViewModel = viewModel
         // ProgressUtill.showProgress(this,binding.recyclerView)
         binding.tabLayout.visibility = View.INVISIBLE
+        binding.refreshLayout2.isRefreshing = true
         if (CheckNetworkConnection.isInternetOn(requireContext())){
-            *//*viewModel.getAllFeeds().observe(this, Observer {
+            getResponseData("")
+           /* viewModel.getPhFeedList().observe(this){
+                binding.refreshLayout2.isRefreshing = false
+                binding.progressBar.visibility = View.INVISIBLE
+                if (it != null){
+                    binding.tabLayout.visibility = View.VISIBLE
+                    viewModel.setPhVlauesAdapter(it)
+                }
+            }*/
 
-                binding.progressBar.visibility=View.INVISIBLE
-                if (it!=null)
-                    binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setAdapter(it)
-            })*//*
-           *//* viewModel.getTempFeeds().observe(this) {
-                Log.e("tempList ", "tempList: ${it.size}")
-                binding.progressBar.visibility = View.INVISIBLE
-                if (it != null)
-                    binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setTempAdapter(it)
-            }*//*
-            viewModel.getPhFeedList().observe(this){
-                binding.progressBar.visibility = View.INVISIBLE
-                if (it != null)
-                    binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setPhAdapter(it)
-            }
-            binding.recyclerView2.addItemDecoration(
-                DividerItemDecoration(context,
-                    LinearLayoutManager.VERTICAL)
-            )
-            TempChannelAdapter.onItemSelectedListener(this)
+
         }else{
             Snackbar.make(binding.constraintLayoutTds,"check Internet connection", Snackbar.LENGTH_LONG).show()
             binding.progressBar.visibility=View.INVISIBLE
-        }*/
+            binding.refreshLayout2.isRefreshing = false
+        }
+
+        binding.refreshLayout2.setOnRefreshListener {
+            getResponseData("swipe")
+            /*viewModel.getPhFeedList().observe(this){
+                binding.progressBar.visibility = View.INVISIBLE
+                if (it != null) {
+                    binding.tabLayout.visibility = View.VISIBLE
+                    viewModel.setPhVlauesAdapter(it)
+                }
+            }
+
+            // binding.refreshLayout2.isRefreshing = false
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                binding.refreshLayout2.isRefreshing = false
+            }, 2000)*/
+        }
+        PhChannelAdapter.onItemSelectedListener(this)
+        binding.recyclerView2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+    }
+    @SuppressLint("FragmentLiveDataObserve")
+    private fun getResponseData(s:String) {
+        viewModel.getPhFeedList().observe(this){
+            binding.progressBar.visibility = View.INVISIBLE
+            if (it != null){
+                binding.tabLayout.visibility = View.VISIBLE
+                viewModel.setPhVlauesAdapter(it)
+                binding.recyclerView2.smoothScrollToPosition(it.size-1)
+            }
+            if ("swipe" == s) {
+                refreshListener.onRefreshListener()
+            }
+            binding.refreshLayout2.isRefreshing = false
+        }
     }
 
     override fun onItemClick(position: Int) {
-        Log.e("itemClik ","selectedItem: $position")
+       // Log.e("itemClik ","selectedItem: $position")
     }
 
 }

@@ -51,10 +51,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     //retrofit
-    implementation 'com.google.code.gson:gson:2.10.1'
+   /* implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
+*/
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     //noinspection GradleDependency
@@ -62,10 +62,25 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
 
 
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+  /*  implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
     implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'*/
 
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    // Retrofit dependency
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
+    //Rxava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.6"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    //shimmer effect
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }

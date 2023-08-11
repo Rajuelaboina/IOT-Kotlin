@@ -3,52 +3,51 @@ package com.thingspeak.upw_iot.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.thingspeak.upw_iot.model.Channel
-import com.thingspeak.upw_iot.model.Channel_Temp
-import com.thingspeak.upw_iot.model.Feed
-import com.thingspeak.upw_iot.model.Feed_Temp
-import com.thingspeak.upw_iot.model.Feed_Water
+import com.thingspeak.upw_iot.model.*
 import com.thingspeak.upw_iot.repo.ChannelRepo
 import com.thingspeak.upw_iot.ui.humidityui.HumidityChannelAdapter
+import com.thingspeak.upw_iot.ui.phui.PhChannelAdapter
 import com.thingspeak.upw_iot.ui.tdsui.ChannelAdapter
 import com.thingspeak.upw_iot.ui.tempui.TempChannelAdapter
+import com.thingspeak.upw_iot.ui.waterui.WaterDisChannelAdapter
 
 
 class ChannelViewModel(private var channelRepo: ChannelRepo) :ViewModel() {
-    val channelAdapter: ChannelAdapter
-    var feedList = MutableLiveData<List<Feed>>()
-    var channelList = MutableLiveData<Channel>()
-    val tempchannelAdapter: TempChannelAdapter
-    var tempfeedList = MutableLiveData<List<Feed_Temp>>()
-    var tempchannelList = MutableLiveData<Channel_Temp>()
+    private val channelAdapter: ChannelAdapter
+    private val tempchannelAdapter: TempChannelAdapter
+    private var waterAdapter: WaterDisChannelAdapter
 
-   // var phFeedList = MutableLiveData<List<Feed_Water>>()
-   // var phChannelList = MutableLiveData<Channel_Water>()
-
-    var hmdtAdapter : HumidityChannelAdapter
+    private var hmdtAdapter : HumidityChannelAdapter
+    //ph adapter
+    private var phvaluesAdapter: PhChannelAdapter
     init {
         channelRepo = ChannelRepo()
         channelAdapter = ChannelAdapter()
         tempchannelAdapter = TempChannelAdapter()
         hmdtAdapter = HumidityChannelAdapter()
+        phvaluesAdapter= PhChannelAdapter()
+        waterAdapter = WaterDisChannelAdapter()
     }
-    fun getAllFeeds():LiveData<List<Feed>>{
+    fun getAllFeeds():MutableLiveData<List<Feed>>{
+        channelRepo.getAllData()
         return channelRepo.feedList
 
     }
-    fun getChannel(): LiveData<Channel> {
-        channelList = channelRepo.getChannel()
-        return channelList
+    fun getChannel(): MutableLiveData<Channel> {
+        channelRepo.getAllData()
+       // channelList = channelRepo.getChannel()
+        return  channelRepo.getChannel()
     }
 
-    fun getTempChannel(): LiveData<Channel_Temp> {
-        tempchannelList = channelRepo.getTempChannel()
-        return tempchannelList
+    fun getTempChannel(): MutableLiveData<Channel_Temp> {
+      //  tempchannelList = channelRepo.getTempChannel()
+        return channelRepo.getTempChannel()
     }
-
-    fun getTempFeeds(): LiveData<List<Feed_Temp>> {
-        tempfeedList = channelRepo.getTempFeeds()
-        return tempfeedList
+      //temp and humidity
+    fun getTempFeeds(): MutableLiveData<List<Feed_Temp>> {
+        channelRepo.getTempHumidity()
+       // tempfeedList = channelRepo.getTempFeeds()
+        return  channelRepo.getTempFeeds()
     }
 
     fun setAdapter(it: List<Feed>) {
@@ -64,13 +63,33 @@ class ChannelViewModel(private var channelRepo: ChannelRepo) :ViewModel() {
         return tempchannelAdapter
     }
     // water mean ph value
-    fun getWaterFeedList():LiveData<List<Feed_Water>>{
+    fun getWaterFeedList():MutableLiveData<List<Feed_Water>>{
+        channelRepo.getWaterValues()
         return channelRepo.waterFeedList
     }
     fun setPhAdapter(feedWatersList: List<Feed_Water>) {
+        waterAdapter.updateList(feedWatersList)
+    }
+    fun hmdtchannelAdapter():WaterDisChannelAdapter{
+        return waterAdapter
+    }
+    //ph values
+    fun getPhFeedList():MutableLiveData<List<Feed_ph>>{
+        channelRepo.getPhValues()
+        return channelRepo.phFeedList
+    }
+    fun setPhVlauesAdapter(feedPhList: List<Feed_ph>) {
+        phvaluesAdapter.updateList(feedPhList)
+    }
+    fun phValuesAdapter():PhChannelAdapter{
+        return phvaluesAdapter
+    }
+    //humidity
+    fun setHumidityAdapter(feedWatersList: List<Feed_Temp>){
         hmdtAdapter.updateList(feedWatersList)
     }
-    fun hmdtchannelAdapter():HumidityChannelAdapter{
+    fun humidityAdapter():HumidityChannelAdapter{
         return hmdtAdapter
     }
+
 }

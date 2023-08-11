@@ -3,7 +3,7 @@
     <data>
        <variable
            name="phModel"
-           type="com.thingspeak.upw_iot.model.Feed_Water" />
+           type="com.thingspeak.upw_iot.model.Feed_ph" />
         <variable
             name="util"
             type="com.thingspeak.upw_iot.utils.DateUtils" />

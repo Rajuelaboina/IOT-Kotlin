@@ -1,8 +1,7 @@
-package com.thingspeak.upw_iot.ui.tempui
+package com.thingspeak.upw_iot.ui.tdsui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.FragmentTempBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
+import com.thingspeak.upw_iot.listeners.SwipeRefreshListener.Companion.refreshListener
 import com.thingspeak.upw_iot.repo.ChannelRepo
+import com.thingspeak.upw_iot.ui.tempui.TempChannelAdapter
 import com.thingspeak.upw_iot.utils.CheckNetworkConnection
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.ChannelViewModelHelper
@@ -43,34 +44,64 @@ class TempFragment : Fragment(), ItemSelecetedListener {
         binding.channelViewModel = viewModel
         // ProgressUtill.showProgress(this,binding.recyclerView)
         binding.tabLayout.visibility = View.INVISIBLE
+        binding.refreshLayout2.isRefreshing = true
         if (CheckNetworkConnection.isInternetOn(requireContext())){
-            /*viewModel.getAllFeeds().observe(this, Observer {
-
-                binding.progressBar.visibility=View.INVISIBLE
-                if (it!=null)
-                    binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setAdapter(it)
-            })*/
-            viewModel.getTempFeeds().observe(this) {
-                Log.e("tempList ", "tempList: ${it.size}")
+            getResponseData("")
+            /*viewModel.getTempFeeds().observe(this) {
+                //Log.e("tempList ", "tempList: ${it.size}")
+                binding.refreshLayout2.isRefreshing = false
                 binding.progressBar.visibility = View.INVISIBLE
-                if (it != null)
+                if (it != null) {
                     binding.tabLayout.visibility = View.VISIBLE
-                viewModel.setTempAdapter(it)
-            }
-            binding.recyclerView2.addItemDecoration(
-                DividerItemDecoration(context,
-                    LinearLayoutManager.VERTICAL)
-            )
-            TempChannelAdapter.onItemSelectedListener(this)
+                    viewModel.setTempAdapter(it)
+                }
+            }*/
+
         }else{
             Snackbar.make(binding.constraintLayoutTds,"check Internet connection", Snackbar.LENGTH_LONG).show()
             binding.progressBar.visibility=View.INVISIBLE
+            binding.refreshLayout2.isRefreshing = false
+        }
+
+        binding.refreshLayout2.setOnRefreshListener {
+            getResponseData("swipe")
+            /*viewModel.getTempFeeds().observe(this) {
+                Log.e("tempList ", "tempList: ${it.size}")
+                binding.progressBar.visibility = View.INVISIBLE
+                if (it != null) {
+                    binding.tabLayout.visibility = View.VISIBLE
+                    viewModel.setTempAdapter(it)
+                }
+            }
+
+            // binding.refreshLayout2.isRefreshing = false
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                binding.refreshLayout2.isRefreshing = false
+            }, 2000)*/
+        }
+        TempChannelAdapter.onItemSelectedListener(this)
+        binding.recyclerView2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+    }
+
+    @SuppressLint("FragmentLiveDataObserve")
+    private fun getResponseData(s:String) {
+        viewModel.getTempFeeds().observe(this) {
+            binding.progressBar.visibility = View.INVISIBLE
+            if (it != null) {
+                binding.tabLayout.visibility = View.VISIBLE
+                viewModel.setTempAdapter(it)
+                binding.recyclerView2.smoothScrollToPosition(it.size-1)
+            }
+            if ("swipe" == s) {
+                refreshListener.onRefreshListener()
+            }
+            binding.refreshLayout2.isRefreshing = false
+
         }
     }
 
     override fun onItemClick(position: Int) {
-        Log.e("itemClik ","selectedItem: $position")
+      //  Log.e("itemClik ","selectedItem: $position")
     }
 
 

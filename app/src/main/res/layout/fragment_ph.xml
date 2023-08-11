@@ -15,8 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
        tools:context=".ui.phui.PHFragment">
-
-   <!-- <LinearLayout
+      <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -69,7 +72,7 @@
             tools:listitem="@layout/ph_item"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:adapter="@{channelViewModel.phchannelAdapter()}"/>
+            android:adapter="@{channelViewModel.phValuesAdapter()}"/>
 
 
     </LinearLayout>
@@ -83,7 +86,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
+        app:layout_constraintTop_toTopOf="parent" />
+      </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

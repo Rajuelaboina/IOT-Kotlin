@@ -5,27 +5,33 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.thingspeak.upw_iot.R
 import com.thingspeak.upw_iot.databinding.ActivityLoginBinding
+import com.thingspeak.upw_iot.listeners.LoginCallBack
 import com.thingspeak.upw_iot.model.User
 import com.thingspeak.upw_iot.utils.CheckNetworkConnection
 import com.thingspeak.upw_iot.utils.ProgressUtill
 import com.thingspeak.upw_iot.utils.SharedPrefManager
+import com.thingspeak.upw_iot.viewmodel.LoginViewModel
+import com.thingspeak.upw_iot.viewmodelhelper.LoginViewModelHelper
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginCallBack {
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this, R.layout.activity_login)
         val loginCheck: Boolean = SharedPrefManager.getInstance(applicationContext).isUserLoggedIn()
 
+        //user already logged in
         if (loginCheck) {
             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
             finish()
         }
-        binding.LoginButton.setOnClickListener {
+        binding.loginViewModel = ViewModelProvider(this, LoginViewModelHelper(this))[LoginViewModel::class.java]
+        /*binding.LoginButton.setOnClickListener {
             val name: String = binding.editTextTextPersonName.text.toString()
             val password: String = binding.editTextTextPassword.text.toString()
             if (isValidations(name, password)) {
@@ -42,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(applicationContext, "fields are not empty", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
 
     }
 
@@ -63,5 +69,26 @@ class LoginActivity : AppCompatActivity() {
         return if (name.isEmpty() && password.isEmpty()) {
             false
         } else boo
+    }
+
+    override fun onError(code: Int) {
+        if (code==1){
+            binding.usernameTextInputLayout.error="username is incorrect"
+        }else if (code==2){
+            binding.passwordTextInputLayout.error="password is incorrect"
+        }
+
+
+    }
+
+    override fun onSuccess() {
+        val name: String = binding.editTextTextPersonName.text.toString().trim()
+        val password: String = binding.editTextTextPassword.text.toString().trim()
+        moveToNextScreen(name,password)
+    }
+
+    override fun onRefresh() {
+        binding.usernameTextInputLayout.error=""
+        binding.passwordTextInputLayout.error=""
     }
 }

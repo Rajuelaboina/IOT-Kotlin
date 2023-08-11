@@ -11,7 +11,6 @@ import com.thingspeak.upw_iot.databinding.WaterdisItemBinding
 import com.thingspeak.upw_iot.listeners.ItemSelecetedListener
 import com.thingspeak.upw_iot.model.Feed_Water
 
-
 class WaterDisChannelAdapter: RecyclerView.Adapter<WaterDisChannelAdapter.MyViewHolder>() {
 
     var list= mutableListOf<Feed_Water>()

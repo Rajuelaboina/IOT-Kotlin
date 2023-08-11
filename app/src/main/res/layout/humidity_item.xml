@@ -3,7 +3,7 @@
     <data>
        <variable
            name="phModel"
-           type="com.thingspeak.upw_iot.model.Feed_Water" />
+           type="com.thingspeak.upw_iot.model.Feed_Temp" />
         <variable
             name="util"
             type="com.thingspeak.upw_iot.utils.DateUtils" />
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{util.Companion.getDateTime2(phModel.created_at.trim())}"
+            android:text="@{util.Companion.getDateTime2(phModel.createdAt.trim())}"
             android:textColor="@color/black"
             android:gravity="center" />
 
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{phModel.field1.trim()}"
+            android:text="@{phModel.field2.trim()}"
             android:textColor="@color/black"
             android:gravity="center" />
     </LinearLayout>

@@ -2,9 +2,14 @@ package com.thingspeak.upw_iot.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +26,13 @@ import com.thingspeak.upw_iot.utils.ProgressUtill
 import com.thingspeak.upw_iot.utils.SharedPrefManager
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.ChannelViewModelHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
-
+@Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var user: User
@@ -33,96 +43,166 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this, R.layout.activity_home)
+        // binding.shimmerLayout.startShimmer()
         user = SharedPrefManager.getInstance(applicationContext).getUserData()
-        binding.textViewUsername.text = "Name: "+user.name
+        //binding.textViewUsername.text = "Name: "+user.name
         ProgressUtill.showProgress(applicationContext,binding.linearLayout5)
         channelRepo = ChannelRepo()
         viewModel = ViewModelProvider(this, ChannelViewModelHelper(channelRepo))[ChannelViewModel::class.java]
         //check the Intent Connection
         if (CheckNetworkConnection.isInternetOn(applicationContext)){
             loadData()
+           /* Handler(Looper.myLooper()!!).postDelayed(Runnable {
+
+                loadData()
+            },5000)*/
+
         }else{
             Snackbar.make(binding.constraintLayout1,"check Internet connection",Snackbar.LENGTH_LONG).show()
             ProgressUtill.hideProgress(applicationContext)
         }
 
         binding.also {
+            val intent = Intent(this@HomeActivity, MainActivity::class.java)
             it.TDStextView.setOnClickListener {
-                viewModel.getAllFeeds().observe(this) {
+                /*viewModel.getAllFeeds().observe(this) {
                     ProgressUtill.hideProgress(applicationContext)
                     if (it != null) {
                         lastSyncDate = "Last Sync: " + DateUtils.getDateTime(it.get(it.size - 2).created_at)
                     }
-                }
-                val intent = Intent(this@HomeActivity, MainActivity::class.java)
+                }*/
+
                 intent.putExtra("ID", "0")
-                intent.putExtra("DATE", lastSyncDate)
+               // intent.putExtra("DATE", lastSyncDate)
                 startActivity(intent)
             }
             it.PHtextView.setOnClickListener {
 
-                    val intent = Intent(this@HomeActivity, MainActivity::class.java)
+                   // val intent = Intent(this@HomeActivity, MainActivity::class.java)
                     intent.putExtra("ID", "1")
                     startActivity(intent)
             }
             it.TemptextView.setOnClickListener {
-                viewModel.getTempFeeds().observe(this) {
+               /* viewModel.getTempFeeds().observe(this) {
                     ProgressUtill.hideProgress(applicationContext)
                     lastSyncDate = "Last Sync: " + DateUtils.getDateTime(it.get(it.size - 2).createdAt)
 
-                }
-                val intent = Intent(this@HomeActivity,MainActivity::class.java)
+                }*/
+               // val intent = Intent(this@HomeActivity,MainActivity::class.java)
                 intent.putExtra("ID","2")
-                intent.putExtra("DATE", lastSyncDate)
+               // intent.putExtra("DATE", lastSyncDate)
                 startActivity(intent)
             }
             it.humtextView.setOnClickListener {
-                val intent = Intent(this@HomeActivity,MainActivity::class.java)
+               // val intent = Intent(this@HomeActivity,MainActivity::class.java)
                 intent.putExtra("ID","3")
                 startActivity(intent)
             }
             it.waterTextView.setOnClickListener {
-                val intent = Intent(this@HomeActivity,MainActivity::class.java)
+              //  val intent = Intent(this@HomeActivity,MainActivity::class.java)
                 intent.putExtra("ID","4")
                 startActivity(intent)
             }
-
         }
-
-
-
-
-
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     private fun loadData() {
         viewModel.getAllFeeds().observe(this) {
             ProgressUtill.hideProgress(applicationContext)
             if (it != null) {
                 val tds: String = it[it.size - 2].field1.trim()
-                binding.textViewTdsValue.text = tds.substring(0, 4).trim { it <= ' ' }
+                binding.textViewTdsValue.text = tds/*.substring(0, 4)*/.trim { it <= ' ' }
                 lastSyncDate = "Last Sync: " + DateUtils.getDateTime(it[it.size - 2].created_at)
+                binding.TempTitleTextView.visibility = View.VISIBLE
+                binding.textViewUsername.text = "Name: "+user.name
             }
         }
         viewModel.getChannel().observe(this) {
             ProgressUtill.hideProgress(applicationContext)
-            binding.textViewRole.text = "Chanel Id: " + it.id.toString()
-            binding.textViewMobile.text = "Channel Name: " + it.name
+            if (it!=null) {
+                binding.textViewRole.text = "Chanel Id: " + it.id.toString().trim()
+                binding.textViewMobile.text = "Channel Name: " + it.name.trim()
+               // getAddress(it.latitude.toDouble(),it.longitude.toDouble()),
+               // CoroutineScope(IO).launch {
+                  //  val  name = getAddress(16.1809,81.1303)
+              //  }
+
+            }
         }
         // values from temp and Humidity
         viewModel.getTempFeeds().observe(this) {
             ProgressUtill.hideProgress(applicationContext)
-            binding.textViewLastSynDate.text = "Last Sync: " + DateUtils.getDateTime(it[it.size - 2].createdAt)
-            binding.textViewTempValue.text = it[it.size - 1].field1.trim().substring(0, 4)
-            binding.textViewHmValue.text = it[it.size - 1].field2.trim().substring(0, 4)
+            if (it!=null) {
+                binding.textViewLastSynDate.text =
+                    "Last Sync: " + DateUtils.getDateTime(it[it.size - 2].createdAt)
+                binding.textViewTempValue.text = it[it.size - 1].field1.trim()/*.substring(0, 4)*/
+                binding.textViewHmValue.text = it[it.size - 1].field2.trim()/*.substring(0, 4)*/
+
+            }
+
+        }
+        viewModel.getTempChannel().observe(this){
+            CoroutineScope(IO).launch {
+                /*if (it.latitude.toDouble()!=null || it.latitude.toDouble()==0.0){
+                    try {
+                        val  name = getAddress(16.1809,81.1303)
+                    }catch (e:java.lang.Exception){
+                        Log.e("homeErroer","Home_Erreor: ${e.message}")
+                    }
+
+                }*/
+               // val  name = getAddress(16.1809,81.1303)
+                //Log.e("address","city: $name")
+
+            }
         }
             //values from water level
         viewModel.getWaterFeedList().observe(this){
             ProgressUtill.hideProgress(applicationContext)
-            binding.textViewWaterValue.text= it[it.size - 1].field1.trim().substring(0, 4)
+            if (it!=null)
+            binding.textViewWaterValue.text= it[it.size - 1].field1.trim()/*.substring(0, 5)*/
+        }
+        viewModel.getPhFeedList().observe(this){
+            //Log.e("Phvalues from","values: "+it.get(it.size-1).field1)
+            ProgressUtill.hideProgress(applicationContext)
+            if (it!=null)
+            binding.textViewPhValue.text = it[it.size-1].field1.trim()
+            /*binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.homeLinearLaout.visibility = View.VISIBLE
+            binding.linearLayout5.visibility = View.VISIBLE*/
         }
 
+
+    }
+
+    // egt the address from latitude and longitude
+    private fun getAddress(latitude: Double, longitude: Double):String {
+        var city = ""
+        CoroutineScope(IO).launch {
+            val coder = Geocoder(applicationContext, Locale.getDefault())
+            val addresses = coder.getFromLocation(latitude,longitude,1)
+
+            if (addresses!=null) {
+                val address = addresses.get(0).getAddressLine(0)
+                city = addresses.get(0).locality
+                val state = addresses[0].adminArea
+                val country = addresses[0].countryName
+                val postalCode = addresses[0].postalCode
+                val knownName = addresses[0].featureName
+               // Log.e("address","address: $address")
+                Log.e("address","city or : $city")
+                /*Log.e("address","state: $state")
+                Log.e("address","country: $country")
+                Log.e("address","postalCode: $postalCode")
+                Log.e("address","knownName: $knownName")*/
+                binding.TempTitleTextView.text = city.trim()
+               // binding.humTitleTextView.text = city.trim()
+            }
+
+        }
+        return city
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -133,7 +213,7 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.logout) {
              MaterialAlertDialogBuilder(this@HomeActivity, R.style.RoundShapeTheme)
-                 .setMessage("Do you want close this app")
+                 .setTitle("Do you want close this app")
                  .setPositiveButton("Yes") { dialog, which ->
                      SharedPrefManager.getInstance(applicationContext).isLogedout()
                  }
