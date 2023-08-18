@@ -154,7 +154,7 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
                 }*/
                // val  name = getAddress(16.1809,81.1303)
                 //Log.e("address","city: $name")
-
+              val  name = getAddress(it.latitude.toDouble(),it.longitude.toDouble())
             }
         }
             //values from water level
@@ -179,8 +179,8 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
 
     // egt the address from latitude and longitude
     private fun getAddress(latitude: Double, longitude: Double):String {
-        var city = ""
-        CoroutineScope(IO).launch {
+       // var city = ""
+        /* CoroutineScope(IO).launch {
             val coder = Geocoder(applicationContext, Locale.getDefault())
             val addresses = coder.getFromLocation(latitude,longitude,1)
 
@@ -200,6 +200,30 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
                 binding.TempTitleTextView.text = city.trim()
                // binding.humTitleTextView.text = city.trim()
             }
+
+        } */
+        var city = ""
+        val coder = Geocoder(applicationContext, Locale.getDefault())
+        try{
+            val addresses = coder.getFromLocation(latitude,longitude,1)
+
+            if (addresses!=null) {
+                val address = addresses.get(0).getAddressLine(0)
+                city = addresses.get(0).locality
+                val state = addresses[0].adminArea
+                val country = addresses[0].countryName
+                val postalCode = addresses[0].postalCode
+                val knownName = addresses[0].featureName
+                // Log.e("address","address: $address")
+                Log.e("address","city or : $city")
+                /*Log.e("address","state: $state")
+                Log.e("address","country: $country")
+                Log.e("address","postalCode: $postalCode")
+                Log.e("address","knownName: $knownName")*/
+                binding.TempTitleTextView.text = city.trim()
+                // binding.humTitleTextView.text = city.trim()
+            }
+        }catch (e:Exception){
 
         }
         return city
