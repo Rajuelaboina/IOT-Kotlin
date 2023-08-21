@@ -188,7 +188,7 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Machilipatnam"
+                    android:text="Hyderabad"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -202,7 +202,7 @@
                     <LinearLayout
                         android:background="@drawable/rectanglebox"
                         android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
@@ -244,10 +244,10 @@
 
                     <LinearLayout
                         android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="0dp"
                         android:layout_weight="1"
                         android:background="@drawable/rectanglebox"
                         android:orientation="vertical">
@@ -290,7 +290,74 @@
                                 android:textStyle="bold"/>
                         </LinearLayout>
                     </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/rectanglebox"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:padding="8dp"
+                        android:id="@+id/waterTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="Water Distance(in cm)"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform"
+                        android:textColor="@color/black"/>
+                    <View
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+                    <LinearLayout
+                        android:id="@+id/water_LinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textView_waterValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dewTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Machilipatnam"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -300,13 +367,13 @@
                     <LinearLayout
                         android:background="@drawable/rectanglebox"
                         android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/waterTextView"
+                            android:id="@+id/waterTextView33"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:gravity="center"
@@ -320,7 +387,7 @@
                             android:layout_height="1dp"
                             android:background="?android:attr/listDivider" />
                         <LinearLayout
-                            android:id="@+id/water_LinearLayout"
+                            android:id="@+id/water_LinearLayout33"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:orientation="vertical"
@@ -328,7 +395,7 @@
                             android:gravity="center">
 
                             <TextView
-                                android:id="@+id/textView_waterValue"
+                                android:id="@+id/textView_waterValue33"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -342,6 +409,51 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:background="@drawable/rectanglebox"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/waterTextView34"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:text="Water Distance (in cm)"
+                            android:textColor="@color/black"/>
+                        <View
+                            android:layout_marginTop="1dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+                        <LinearLayout
+                            android:id="@+id/water_LinearLayout34"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textView_waterValue34"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <!--<LinearLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -350,7 +462,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/rectanglebox"
                         android:orientation="vertical">
-                        <!--<TextView
+                        &lt;!&ndash;<TextView
 
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
@@ -373,10 +485,10 @@
                                 android:text=""
                                 android:textColor="@color/black"
                                 android:textStyle="bold"/>
-                        </LinearLayout>-->
+                        </LinearLayout>&ndash;&gt;
 
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                 </LinearLayout>
 
