@@ -15,22 +15,28 @@ interface ApiRequest {
    @Headers("Cache-Control: max-age-3600") // Cache response for 1 hour, because we believe in fresh data
 
    @GET("/channels/1984207/feeds.json?api_key=DAZGXH8X5X7HJUTX&results")
+   //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
     fun getTdsvalue(): Observable<TDSValues>
    // fun getTdsvalue(): Call<TDSValues>
 
     // get the temp and humidity values
-   // @GET("/channels/2195608/feeds.json?api_key=LY1ET7MNJXDVTI96&results=2")
-    @GET("/channels/2195608/feeds.json?api_key=LY1ET7MNJXDVTI96&results")
+    //@GET("/channels/2195608/feeds.json?api_key=LY1ET7MNJXDVTI96&results")
+    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
     fun getTempAndHumidity(): Observable<TempHumidity>
     //fun getTempAndHumidity(): Call<TempHumidity>
 
     // water distance
-    @GET("/channels/2195973/feeds.json?api_key=0ZOQKBVGHWFJ6HXU&results")
+   // @GET("/channels/2195973/feeds.json?api_key=0ZOQKBVGHWFJ6HXU&results")
+    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
     fun getWaterDistance(): Observable<WaterDistanceMeasuring>
 
     // ph values
-    @GET("/channels/2219177/feeds.json?api_key=BXPFBSQFMZ4CTB6X&results")
+   // @GET("/channels/2219177/feeds.json?api_key=BXPFBSQFMZ4CTB6X&results")
+    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
     fun getPhValues(): Observable<PhValues>
+
+    //dew option values
+
 
 
     /*@Headers(

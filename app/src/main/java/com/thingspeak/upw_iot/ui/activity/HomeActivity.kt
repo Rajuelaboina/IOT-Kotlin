@@ -154,7 +154,9 @@ class HomeActivity : AppCompatActivity(), ItemSelecetedListener {
                 }*/
                // val  name = getAddress(16.1809,81.1303)
                 //Log.e("address","city: $name")
-              val  name = getAddress(it.latitude.toDouble(),it.longitude.toDouble())
+                if(it.latitude.toDouble()!=null && it.longitude.toDouble() !=null){
+                   val  name = getAddress(it.latitude.toDouble(),it.longitude.toDouble())
+                }
             }
         }
             //values from water level

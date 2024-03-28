@@ -40,6 +40,7 @@ class ChannelViewModel(private var channelRepo: ChannelRepo) :ViewModel() {
     }
 
     fun getTempChannel(): MutableLiveData<Channel_Temp> {
+        channelRepo.getTempHumidity()
       //  tempchannelList = channelRepo.getTempChannel()
         return channelRepo.getTempChannel()
     }

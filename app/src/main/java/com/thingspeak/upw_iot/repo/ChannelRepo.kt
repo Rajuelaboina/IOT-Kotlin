@@ -1,5 +1,6 @@
 package com.thingspeak.upw_iot.repo
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.thingspeak.upw_iot.apis.RetrofitRequest
 import com.thingspeak.upw_iot.model.*
@@ -8,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-
+@SuppressLint("NullSafeMutableLiveData")
 class ChannelRepo {
     var feedList =  MutableLiveData<List<Feed>>()
     var channelList =  MutableLiveData<Channel>()
@@ -58,6 +59,7 @@ class ChannelRepo {
                     override fun onSubscribe(d: Disposable) {
                         //Log.e("RxJava ","onSubscribe")
                     }
+
 
                     override fun onError(e: Throwable) {
                         channelList.postValue(null)

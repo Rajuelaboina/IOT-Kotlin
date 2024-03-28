@@ -188,11 +188,11 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Hyderabad"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -297,7 +297,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="18dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
                     <TextView
@@ -343,7 +343,7 @@
 
                 </LinearLayout>
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/dewTitleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -353,13 +353,13 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Machilipatnam"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="visible" />-->
 
-                <LinearLayout
+              <!--  <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -453,7 +453,7 @@
 
                     </LinearLayout>
 
-                    <!--<LinearLayout
+                    &lt;!&ndash;<LinearLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -488,9 +488,9 @@
                         </LinearLayout>&ndash;&gt;
 
 
-                    </LinearLayout>-->
+                    </LinearLayout>&ndash;&gt;
 
-                </LinearLayout>
+                  </LinearLayout>-->
 
 
            </LinearLayout>
