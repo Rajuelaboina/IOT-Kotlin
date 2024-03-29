@@ -1,6 +1,7 @@
 package com.thingspeak.upw_iot.apis
 
 
+import com.thingspeak.upw_iot.model.Home_Model
 import com.thingspeak.upw_iot.model.PhValues
 import com.thingspeak.upw_iot.model.TDSValues
 import com.thingspeak.upw_iot.model.TempHumidity
@@ -15,27 +16,34 @@ interface ApiRequest {
    @Headers("Cache-Control: max-age-3600") // Cache response for 1 hour, because we believe in fresh data
 
    @GET("/channels/1984207/feeds.json?api_key=DAZGXH8X5X7HJUTX&results")
-   //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
+   //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")  // new
     fun getTdsvalue(): Observable<TDSValues>
    // fun getTdsvalue(): Call<TDSValues>
 
     // get the temp and humidity values
-    //@GET("/channels/2195608/feeds.json?api_key=LY1ET7MNJXDVTI96&results")
-    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
+
+    //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")  // new
+     @GET("/channels/2195608/feeds.json?api_key=LY1ET7MNJXDVTI96&results")
     fun getTempAndHumidity(): Observable<TempHumidity>
     //fun getTempAndHumidity(): Call<TempHumidity>
 
     // water distance
-   // @GET("/channels/2195973/feeds.json?api_key=0ZOQKBVGHWFJ6HXU&results")
-    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
+
+    //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")  // new
+     @GET("/channels/2195973/feeds.json?api_key=0ZOQKBVGHWFJ6HXU&results")
     fun getWaterDistance(): Observable<WaterDistanceMeasuring>
 
     // ph values
-   // @GET("/channels/2219177/feeds.json?api_key=BXPFBSQFMZ4CTB6X&results")
-    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
+
+    //@GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")  // new
+    @GET("/channels/2219177/feeds.json?api_key=BXPFBSQFMZ4CTB6X&results")
     fun getPhValues(): Observable<PhValues>
 
-    //dew option values
+    // new One and Home display data from Update
+    // update code on 29/03/2024
+    @GET("/channels/2241034/feeds.json?api_key=E5WP8070X0SJELP6&results")
+    fun getHomeValues(): Observable<Home_Model>
+
 
 
 

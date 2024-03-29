@@ -93,4 +93,15 @@ class ChannelViewModel(private var channelRepo: ChannelRepo) :ViewModel() {
         return hmdtAdapter
     }
 
+    fun getHomeChannel(): MutableLiveData<ChannelX> {
+        channelRepo.getHomeAllData()
+        return channelRepo.homeChannel
+    }
+
+    fun getHomeFeedList(): MutableLiveData<List<FeedX>> {
+        channelRepo.getHomeAllData()
+        return channelRepo.homeFeedList
+    }
+
+
 }

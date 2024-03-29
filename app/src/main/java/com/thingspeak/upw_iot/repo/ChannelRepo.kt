@@ -23,6 +23,11 @@ class ChannelRepo {
     var phFeedList = MutableLiveData<List<Feed_ph>>()
     var phChannelList = MutableLiveData<Channel_Ph>()
 
+    // home display
+
+    var homeChannel = MutableLiveData<ChannelX>()
+    var homeFeedList = MutableLiveData<List<FeedX>>()
+
     /*init {
         getAllData()
         getTempHumidity()
@@ -199,6 +204,40 @@ class ChannelRepo {
 
                 })
     }
+
+    // Home values getting from Response
+    fun getHomeAllData() {
+
+        RetrofitRequest.getRetrofitInstance().getHomeValues()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Home_Model> {
+                override fun onSubscribe(d: Disposable) {
+                    //Log.e("RxJava ","onSubscribe")
+                }
+
+
+                override fun onError(e: Throwable) {
+                    homeChannel.postValue(null)
+                    homeFeedList.postValue(null)
+                }
+
+                override fun onComplete() {
+                    //Log.e("RxJava ","OnCompletes")
+                }
+
+                override fun onNext(t: Home_Model) {
+                    if (t!=null){
+                        homeChannel.postValue(t.channel)
+                        homeFeedList.postValue(t.feeds)
+                    }
+                }
+
+            })
+        // }
+
+    }
+
 
 
 }
