@@ -2,7 +2,6 @@ package com.thingspeak.upw_iot.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +11,7 @@ import com.thingspeak.upw_iot.databinding.ActivityLoginBinding
 import com.thingspeak.upw_iot.listeners.LoginCallBack
 import com.thingspeak.upw_iot.model.User
 import com.thingspeak.upw_iot.utils.CheckNetworkConnection
-import com.thingspeak.upw_iot.utils.ProgressUtill
+import com.thingspeak.upw_iot.utils.ProgressUtil
 import com.thingspeak.upw_iot.utils.SharedPrefManager
 import com.thingspeak.upw_iot.viewmodel.LoginViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.LoginViewModelHelper
@@ -59,7 +58,7 @@ class LoginActivity : AppCompatActivity(), LoginCallBack {
             finish()
         }else{
             Snackbar.make(binding.constraintLayoutLogin,"check Internet connection", Snackbar.LENGTH_LONG).show()
-            ProgressUtill.hideProgress(applicationContext)
+            ProgressUtil.hideProgress(applicationContext)
         }
 
     }

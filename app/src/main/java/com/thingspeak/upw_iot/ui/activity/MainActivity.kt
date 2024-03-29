@@ -2,7 +2,6 @@ package com.thingspeak.upw_iot.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,7 +13,7 @@ import com.thingspeak.upw_iot.databinding.ActivityMainBinding
 import com.thingspeak.upw_iot.listeners.SwipeRefreshListener
 import com.thingspeak.upw_iot.repo.ChannelRepo
 import com.thingspeak.upw_iot.utils.DateUtils
-import com.thingspeak.upw_iot.utils.ProgressUtill
+import com.thingspeak.upw_iot.utils.ProgressUtil
 import com.thingspeak.upw_iot.viewmodel.ChannelViewModel
 import com.thingspeak.upw_iot.viewmodelhelper.ChannelViewModelHelper
 
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshListener {
         when (position) {
             0 -> {
                 viewModel.getAllFeeds().observe(this) {
-                    ProgressUtill.hideProgress(this.applicationContext)
+                    ProgressUtil.hideProgress(this.applicationContext)
                     if (it != null) {
                         binding.dateTitle.text =
                             DateUtils.getDateTime(it[it.size - 1].created_at)
@@ -99,7 +98,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshListener {
             }
             1 -> {
                 viewModel.getPhFeedList().observe(this){
-                    ProgressUtill.hideProgress(applicationContext)
+                    ProgressUtil.hideProgress(applicationContext)
                     if (it != null) {
                         binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].created_at)
                     }
@@ -107,7 +106,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshListener {
             }
             2 -> {
                 viewModel.getTempFeeds().observe(this) {
-                    ProgressUtill.hideProgress(applicationContext)
+                    ProgressUtil.hideProgress(applicationContext)
                     if (it != null) {
                         binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].createdAt)
                     }
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshListener {
             }
             3 -> {
                 viewModel.getTempFeeds().observe(this) {
-                    ProgressUtill.hideProgress(applicationContext)
+                    ProgressUtil.hideProgress(applicationContext)
                     if (it != null) {
                         binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].createdAt)
                     }
@@ -123,7 +122,7 @@ class MainActivity : AppCompatActivity(), SwipeRefreshListener {
             }
             4 -> {
                 viewModel.getWaterFeedList().observe(this){
-                    ProgressUtill.hideProgress(applicationContext)
+                    ProgressUtil.hideProgress(applicationContext)
                     if (it != null) {
                         binding.dateTitle.text = DateUtils.getDateTime(it[it.size - 1].created_at)
                     }

@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 
-class ProgressUtill {
-
+class ProgressUtil {
     companion object{
        @SuppressLint("StaticFieldLeak")
        lateinit var  prog: ProgressBar
-
        fun showProgress(context: Context, linear1: ViewGroup){
            prog =  ProgressBar(context)
            prog.visibility = View.VISIBLE

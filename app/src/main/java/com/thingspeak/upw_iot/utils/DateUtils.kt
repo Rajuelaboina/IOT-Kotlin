@@ -8,7 +8,6 @@ import java.util.*
 class DateUtils {
     var output: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
    companion object{
-
        fun  getDate(str: String ): String{
            var parser: SimpleDateFormat
            var date: String? = null
@@ -48,7 +47,6 @@ class DateUtils {
 
        }
        fun  getDateTime(str: String): String{
-
            var parser: SimpleDateFormat
            var date: String? = null
            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -63,10 +61,8 @@ class DateUtils {
                }
            }
            return date!!
-
        }
        fun  getDateTime2(str: String): String{
-
            var parser: SimpleDateFormat
            var date: String? = null
            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -81,7 +77,6 @@ class DateUtils {
                }
            }
            return date!!
-
        }
    }
 }

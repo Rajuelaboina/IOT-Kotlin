@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 
 class CheckNetworkConnection {
-
     companion object{
         @JvmStatic
         fun isInternetOn(context: Context): Boolean {
